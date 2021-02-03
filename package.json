@@ -1,0 +1,16 @@
+{
+  "name": "serverless-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Ignacio Gallo",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "now": "^21.0.1"
+  }
+}
