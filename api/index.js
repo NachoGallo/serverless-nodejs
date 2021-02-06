@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3001;
 const env = require("node-env-file");
 env("../.env");
 
