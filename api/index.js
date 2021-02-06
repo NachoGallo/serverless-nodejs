@@ -4,13 +4,11 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const meals = require("./routes/meals");
 const orders = require("./routes/orders");
+require("dotenv").config();
+const port = process.env.PORT || 3001;
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
-
-const port = process.env.PORT || 3001;
-const env = require("node-env-file");
-env("../.env");
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
