@@ -1,18 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Orders = require("../models/Orders");
+const OrderController = require("../controllers/OrderController");
 
-router.get("/", (req, res) => {
-  Orders.find()
-    .exec()
-    .then((Orders) => res.status(200).send(Orders));
-});
+router.get("/", OrderController.getAllOrders);
 
-router.get("/:id", (req, res) => {
-  Orders.findById(req.params.id)
-    .exec()
-    .then((order) => res.status(200).send(order));
-});
+router.get("/:id", OrderController.getOrderById);
 
 router.post("/", (req, res) => {
   Orders.create(req.body).then((order) => res.status(201).send(order));
