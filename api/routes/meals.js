@@ -1,33 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const Meals = require("../models/Meals");
+const MealsController = require("../controllers/MealsController");
 
-router.get("/", (req, res) => {
-  Meals.find()
-    .exec()
-    .then((meals) => res.status(200).send(meals));
-});
+router.get("/", MealsController.getAllMeals);
 
-router.get("/:id", (req, res) => {
-  Meals.findById(req.params.id)
-    .exec()
-    .then((meal) => res.status(200).send(meal));
-});
+router.get("/:id", MealsController.getMealById);
 
-router.post("/", (req, res) => {
-  Meals.create(req.body).then((meal) => res.status(201).send(meal));
-});
+router.post("/", MealsController.createNewMeal);
 
-router.put("/:id", (req, res) => {
-  Meals.findByIdAndUpdate(req.params.id, req.body).then(() =>
-    res.sendStatus(204)
-  );
-});
+router.put("/:id", MealsController.updateMeal);
 
-router.delete("/:id", (req, res) => {
-  Meals.findByIdAndDelete(req.params.id)
-    .exec()
-    .then(() => res.sendStatus(204));
-});
+router.delete("/:id", MealsController.deleteMeal);
 
 module.exports = router;
