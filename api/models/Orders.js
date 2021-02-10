@@ -6,6 +6,8 @@ const Orders = mongoose.model(
   new Schema({
     mealId: { type: Schema.Types.ObjectId, ref: "Meal" },
     userId: String,
+    additional: String,
+    price: Number,
   })
 );
 
