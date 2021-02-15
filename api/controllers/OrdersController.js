@@ -22,7 +22,10 @@ exports.getOrderById = (req, res) => {
 };
 
 exports.createNewOrder = (req, res) => {
-  Orders.create(req.body).then((order) => res.status(201).send(order));
+  const { _id } = req.user;
+  Orders.create({ ...req.body, user_id: _id }).then((order) =>
+    res.status(201).send(order)
+  );
 };
 
 exports.updateOrder = (req, res) => {
