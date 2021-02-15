@@ -7,7 +7,7 @@ const signToken = (_id) => {
 };
 
 exports.register = (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, name } = req.body;
 
   crypto.randomBytes(16, (err, salt) => {
     const newSalt = salt.toString("base64");
@@ -19,6 +19,7 @@ exports.register = (req, res) => {
           if (user) return res.status(400).send("El usuario ya existe.");
 
           Users.create({
+            name,
             email,
             password: encryptedPassword,
             salt: newSalt,
