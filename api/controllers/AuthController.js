@@ -53,5 +53,9 @@ exports.login = (req, res) => {
 };
 
 exports.getUserData = (req, res) => {
-  res.send(req.user);
+  let user = JSON.parse(JSON.stringify(req.user));
+  delete user.password;
+  delete user.salt;
+
+  res.send(user);
 };
