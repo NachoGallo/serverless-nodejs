@@ -3,7 +3,10 @@ const Users = require("../models/Users");
 
 const isAuthenticated = (req, res, next) => {
   let bearerToken = req.headers.authorization;
-  let token = bearerToken.split(" ")[1];
+  let token = null;
+  if (bearerToken) {
+    token = bearerToken.split(" ")[1];
+  }
 
   if (!token) return res.sendStatus(403);
 
