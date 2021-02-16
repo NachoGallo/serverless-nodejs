@@ -2,15 +2,8 @@ const Orders = require("../models/Orders");
 const Meals = require("../models/Meals");
 
 exports.getAllOrders = async (req, res) => {
-  const orders = await Orders.find().exec();
+  const orders = await Orders.find().populate("meals", "name").exec();
   const objOrders = JSON.parse(JSON.stringify(orders));
-  const mealsNames = await Meals.find({}, { name: 1 }).exec();
-
-  objOrders.forEach((order, i) => {
-    order.mealName = mealsNames
-      .filter((mealName) => mealName._id == order.mealId)
-      .map((mealName) => mealName.name)[0];
-  });
 
   res.send(objOrders);
 };

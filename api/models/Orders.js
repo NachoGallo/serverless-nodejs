@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const Orders = mongoose.model(
   "Order",
   new Schema({
-    mealId: { type: Schema.Types.ObjectId, ref: "Meal" },
+    meals: { type: Schema.Types.ObjectId, ref: "Meal" },
     userId: String,
     additional: String,
     price: Number,
