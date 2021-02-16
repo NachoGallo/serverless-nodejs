@@ -47,7 +47,7 @@ exports.login = (req, res) => {
           const token = signToken(user._id);
           return res.send({ token });
         }
-        return res.send.status(400).send("Usuario y/o contraseña incorrecta.");
+        return res.status(400).send("Usuario y/o contraseña incorrecta.");
       });
     });
 };
