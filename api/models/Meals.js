@@ -7,6 +7,7 @@ const Meals = mongoose.model(
     name: String,
     description: String,
     price: Number,
+    visibility: { type: Boolean, default: true },
   })
 );
 
