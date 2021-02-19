@@ -16,6 +16,8 @@ const isAuthenticated = (req, res, next) => {
     Users.findOne({ _id })
       .exec()
       .then((user) => {
+        if (!user) return res.sendStatus(403);
+
         req.user = user;
         next();
       });

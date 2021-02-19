@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const meals = require("./routes/meals");
 const orders = require("./routes/orders");
+const categories = require("./routes/categories");
 const auth = require("./routes/auth");
 require("dotenv").config();
 const port = process.env.PORT || 3001;
@@ -19,6 +20,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 app.use("/api/meals", meals);
 app.use("/api/orders", orders);
+app.use("/api/categories", categories);
 app.use("/api/auth", auth);
 
 app.listen(port, () => {
