@@ -3,7 +3,7 @@ const Categories = require("../models/Categories");
 exports.getAllCategories = async (req, res) => {
   Categories.find()
     .exec()
-    .then((categories) => res.sendStatus(200).send(categories));
+    .then((categories) => res.send(categories));
 };
 
 exports.getCategoryById = (req, res) => {
