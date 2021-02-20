@@ -8,6 +8,7 @@ exports.getAllMeals = (req, res) => {
 
 exports.getMealById = (req, res) => {
   Meals.findById(req.params.id)
+    .populate("category", "name")
     .exec()
     .then((meal) => res.status(200).send(meal));
 };

@@ -4,6 +4,7 @@ const Users = require("../models/Users");
 const isAuthenticated = (req, res, next) => {
   let bearerToken = req.headers.authorization;
   let token = null;
+
   if (bearerToken) {
     token = bearerToken.split(" ")[1];
   }

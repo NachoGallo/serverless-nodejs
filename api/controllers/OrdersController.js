@@ -10,6 +10,9 @@ exports.getAllOrders = async (req, res) => {
 
 exports.getOrderById = (req, res) => {
   Orders.findById(req.params.id)
+    .populate("user", "name")
+    .populate("meals", "name")
+    .populate()
     .exec()
     .then((order) => res.status(200).send(order));
 };

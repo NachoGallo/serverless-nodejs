@@ -1,14 +1,17 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+const { Schema, model } = require("mongoose");
 
-const Meals = mongoose.model(
-  "Meal",
-  new Schema({
-    name: String,
+const mealSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
     description: String,
-    price: Number,
+    price: { type: Number, required: true },
     visibility: { type: Boolean, default: false },
-  })
+    category: { type: Schema.Types.ObjectId, ref: "Categories" },
+  },
+  { timestamps: true }
 );
 
-module.exports = Meals;
+module.exports = model("Meals", mealSchema);

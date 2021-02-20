@@ -1,14 +1,15 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
-
-const Categories = mongoose.model(
-  "Category",
-  new Schema({
-    name: String,
+const { Schema, model } = require("mongoose");
+const categorySchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
     description: String,
     visibility: { type: Boolean, default: false },
-    restoranId: { type: Schema.Types.ObjectId, ref: "Restoran" },
-  })
+    restoranId: { type: Schema.Types.ObjectId, ref: "Restaourant" },
+  },
+  { timestamps: true }
 );
 
-module.exports = Categories;
+module.exports = model("Categories", categorySchema);
