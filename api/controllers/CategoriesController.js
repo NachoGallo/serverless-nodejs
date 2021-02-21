@@ -1,5 +1,5 @@
 const Categories = require("../models/Categories");
-
+const Meals = require("../models/Meals");
 exports.getAllCategories = async (req, res) => {
   Categories.find()
     .exec()
@@ -36,4 +36,10 @@ exports.deleteCategory = (req, res) => {
 exports.checkExistCategory = async (categoryId) => {
   const category = await Categories.findById(categoryId);
   if (!category) throw new Error(`No existe categoria`);
+};
+
+exports.getMeals = async (req, res) => {
+  const category = req.params.id;
+  const meals = await Meals.find({ category }).populate("category", "name");
+  res.send(meals);
 };

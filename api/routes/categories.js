@@ -17,4 +17,6 @@ router.put("/:id", isMongoId, CategoriesController.updateCategory);
 
 router.delete("/:id", isMongoId, CategoriesController.deleteCategory);
 
+router.get("/:id/meals", isMongoId, CategoriesController.getMeals);
+
 module.exports = router;
