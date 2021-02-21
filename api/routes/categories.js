@@ -13,10 +13,22 @@ router.post(
   CategoriesController.createNewCategory
 );
 
-router.put("/:id", isMongoId, CategoriesController.updateCategory);
+router.put(
+  "/:id",
+  [isAuthenticated, isMongoId],
+  CategoriesController.updateCategory
+);
 
-router.delete("/:id", isMongoId, CategoriesController.deleteCategory);
+router.delete(
+  "/:id",
+  [isAuthenticated, isMongoId],
+  CategoriesController.deleteCategory
+);
 
-router.get("/:id/meals", isMongoId, CategoriesController.getMeals);
+router.get(
+  "/:id/meals",
+  [isAuthenticated, isMongoId],
+  CategoriesController.getMeals
+);
 
 module.exports = router;

@@ -1,39 +1,50 @@
 const Restaurants = require("../models/Restaurants");
 
 exports.getAllRestaurants = async (req, res) => {
-  const restaurants = await Restaurants.find().exec();
+  const restaurants = await Restaurants.find();
 
-  res.send(restaurants.toObject());
+  res.send(restaurants);
 };
 
-// exports.getCategoryById = async (req, res) => {
-//   const category = await Restaurants.findById(req.params.id);
+exports.getRestaurantById = async (req, res) => {
+  const restaurant = await Restaurants.findById(req.params.id);
+  if (!restaurant) return res.status(404).send();
 
-//   if (!category) return res.status(404).send();
+  return res.status(200).send(restaurant);
+};
 
-//   return res.status(200).send(category);
-// };
+exports.createNewRestaurant = async (req, res) => {
+  const { _id } = req.user;
 
-// exports.createNewCategory = (req, res) => {
-//   const { _id } = req.user;
-//   Restaurants.create({ ...req.body, user_id: _id }).then((category) =>
-//     res.status(201).send(category)
-//   );
-// };
+  const userHasOne = await this.checkUserHasOne(_id);
+  if (userHasOne) throw new Error("El usuario ya tiene un restaurante creado.");
 
-// exports.updateCategory = (req, res) => {
-//   Restaurants.findByIdAndUpdate(req.params.id, req.body).then(() =>
-//     res.sendStatus(204)
-//   );
-// };
+  Restaurants.create({ ...req.body, userId: _id }).then((restaurant) =>
+    res.status(201).send(restaurant)
+  );
+};
 
-// exports.deleteCategory = (req, res) => {
-//   Restaurants.findByIdAndDelete(req.params.id)
-//     .exec()
-//     .then(() => res.sendStatus(204));
-// };
+exports.updateRestaurant = (req, res) => {
+  Restaurants.findByIdAndUpdate(req.params.id, req.body).then(() =>
+    res.sendStatus(204)
+  );
+};
 
-// exports.checkExistCategory = async (categoryId) => {
-//   const category = await Restaurants.findById(categoryId);
-//   if (!category) throw new Error(`No existe categoria`);
-// };
+exports.deleteRestaurant = async (req, res) => {
+  const deleted = await Restaurants.findByIdAndDelete(req.params.id);
+
+  if (!deleted) {
+    const msg = "No se encontró el restaurante para eliminar.";
+    res.status(404).send({ msg });
+  }
+
+  res.status(200).send(deleted);
+};
+
+exports.checkUserHasOne = async (_id) => {
+  const restaurant = await Restaurants.find({ userId: _id });
+
+  if (restaurant.length) return true;
+
+  return false;
+};

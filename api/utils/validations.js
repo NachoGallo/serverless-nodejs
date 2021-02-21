@@ -1,6 +1,7 @@
 const { check, validationResult } = require("express-validator");
 const AuthController = require("../controllers/AuthController");
 const CategoriesController = require("../controllers/CategoriesController");
+const RestaurantsController = require("../controllers/RestaurantsController");
 
 const getErrorsFromChecks = (req, res, next) => {
   const errors = validationResult(req);
@@ -54,7 +55,10 @@ const validateMeals = [
 
 //RESTAURANTS
 
-// const validateRestaurants = []
+const validateRestaurants = [
+  check("name", "El nombre es obligatorio").not().isEmpty(),
+  getErrorsFromChecks,
+];
 
 const validateOrders = [
   check("price", "Precio invalido").not().isEmpty().isNumeric(),
@@ -65,10 +69,10 @@ const validateOrders = [
 
 module.exports = {
   validateRegister,
-  getErrorsFromChecks,
   validateLogin,
   isMongoId,
   validateCategory,
   validateMeals,
   validateOrders,
+  validateRestaurants,
 };

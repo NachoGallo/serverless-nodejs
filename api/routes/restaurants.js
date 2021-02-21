@@ -2,20 +2,28 @@ const express = require("express");
 const router = express.Router();
 const RestaurantsController = require("../controllers/RestaurantsController");
 const { isAuthenticated } = require("../middlewares/authMiddleware");
-// const {
-//   validateFields,
-//   isMongoId,
-//   validateCategory,
-// } = require("../utils/validations");
+const { validateRestaurants, isMongoId } = require("../utils/validations");
 
 router.get("/", RestaurantsController.getAllRestaurants);
 
-// router.get("/:id", RestaurantsController.getRestaurantById);
+router.get("/:id", isMongoId, RestaurantsController.getRestaurantById);
 
-// router.post("/", isAuthenticated, RestaurantsController.createNewRestaurant);
+router.post(
+  "/",
+  [isAuthenticated, validateRestaurants],
+  RestaurantsController.createNewRestaurant
+);
 
-// router.put("/:id", RestaurantsController.updateRestaurant);
+router.put(
+  "/:id",
+  [isAuthenticated, isMongoId],
+  RestaurantsController.updateRestaurant
+);
 
-// router.delete("/:id", RestaurantsController.deleteRestaurant);
+router.delete(
+  "/:id",
+  [isAuthenticated, isMongoId],
+  RestaurantsController.deleteRestaurant
+);
 
 module.exports = router;

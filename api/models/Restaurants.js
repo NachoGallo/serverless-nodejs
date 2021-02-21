@@ -8,4 +8,10 @@ const restaurantSchema = new Schema(
   },
   { timestamps: true }
 );
+
+restaurantSchema.methods.toJSON = function () {
+  const { __v, createdAt, updatedAt, ...restaurant } = this.toObject();
+  return restaurant;
+};
+
 module.exports = model("Restaurants", restaurantSchema);
