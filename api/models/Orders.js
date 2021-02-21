@@ -16,4 +16,9 @@ const ordersSchema = new Schema(
   { timestamps: true }
 );
 
+ordersSchema.methods.toJSON = function () {
+  const { __v, createdAt, updatedAt, ...order } = this.toObject();
+  return order;
+};
+
 module.exports = model("Orders", ordersSchema);

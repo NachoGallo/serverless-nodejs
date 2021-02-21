@@ -18,4 +18,8 @@ const mealSchema = new Schema(
   { timestamps: true }
 );
 
+mealSchema.methods.toJSON = function () {
+  const { __v, createdAt, updatedAt, ...meal } = this.toObject();
+  return meal;
+};
 module.exports = model("Meals", mealSchema);
