@@ -45,6 +45,10 @@ const validateMeals = [
 // meals isMongoId, exist
 // restourant mongoid , ecist
 
+//RESTAURANTS
+
+// const validateRestaurants = []
+
 const validateOrders = [
   check("price", "Precio invalido").not().isEmpty().isNumeric(),
   check("user", "Usuario invalido").not().isEmpty().isMongoId(),

@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const meals = require("./routes/meals");
 const orders = require("./routes/orders");
+const restaurants = require("./routes/restaurants");
 const categories = require("./routes/categories");
 const auth = require("./routes/auth");
 require("dotenv").config();
@@ -22,6 +23,7 @@ app.use("/api/meals", meals);
 app.use("/api/orders", orders);
 app.use("/api/categories", categories);
 app.use("/api/auth", auth);
+app.use("/api/restaurants", restaurants);
 
 app.listen(port, () => {
   console.log(`Escuchando en el puerto ${port}`);
