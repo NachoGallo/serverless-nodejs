@@ -1,5 +1,4 @@
 const Users = require("../models/Users");
-const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 
@@ -12,8 +11,6 @@ exports.register = async (req, res) => {
 
   const user = new Users({ email, password, name });
 
-  const salt = bcryptjs.genSaltSync();
-  user.password = bcryptjs.hashSync(password, salt);
   await user.save();
 
   res.json({

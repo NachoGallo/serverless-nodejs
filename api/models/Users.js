@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const bcrypt = require("bcryptjs");
+const bcryptjs = require("bcryptjs");
 const userSchema = new Schema(
   {
     name: {
@@ -26,16 +26,17 @@ const userSchema = new Schema(
 );
 
 userSchema.methods.toJSON = function () {
-  const { password, ...usuario } = this.toObject();
+  const { password, createdAt, updatedAt, __v, ...usuario } = this.toObject();
   return usuario;
 };
 
 //Antes de guardar encripta la password
-// userSchema.pre("save", async function (next) {
-//   const user = this;
-//   if (user.isModified("password")) {
-//     user.password = await bcrypt.hash(user.password, 8);
-//   }
-//   next();
-// });
+userSchema.pre("save", async function (next) {
+  const user = this;
+  if (user.isModified("password")) {
+    const salt = bcryptjs.genSaltSync();
+    user.password = bcryptjs.hashSync(user.password, salt);
+  }
+  next();
+});
 module.exports = model("Users", userSchema);
