@@ -27,7 +27,6 @@ const isAuthenticated = (req, res, next) => {
 
 const hasRole = (role) => (req, res, next) => {
   if (req.user.role === role) return next();
-
   return res.sendStatus(403);
 };
 

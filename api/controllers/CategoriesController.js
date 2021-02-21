@@ -6,10 +6,12 @@ exports.getAllCategories = async (req, res) => {
     .then((categories) => res.send(categories));
 };
 
-exports.getCategoryById = (req, res) => {
-  Categories.findById(req.params.id)
-    .exec()
-    .then((category) => res.status(200).send(category));
+exports.getCategoryById = async (req, res) => {
+  const category = await Categories.findById(req.params.id);
+
+  if (!category) return res.status(404).send();
+
+  return res.status(200).send(category);
 };
 
 exports.createNewCategory = (req, res) => {
@@ -29,4 +31,9 @@ exports.deleteCategory = (req, res) => {
   Categories.findByIdAndDelete(req.params.id)
     .exec()
     .then(() => res.sendStatus(204));
+};
+
+exports.checkExistCategory = async (categoryId) => {
+  const category = await Categories.findById(categoryId);
+  if (!category) throw new Error(`No existe categoria`);
 };

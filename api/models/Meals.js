@@ -9,7 +9,11 @@ const mealSchema = new Schema(
     description: String,
     price: { type: Number, required: true },
     visibility: { type: Boolean, default: false },
-    category: { type: Schema.Types.ObjectId, ref: "Categories" },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Categories",
+      required: true,
+    },
   },
   { timestamps: true }
 );

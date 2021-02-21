@@ -2,15 +2,36 @@ const express = require("express");
 const router = express.Router();
 const CategoriesController = require("../controllers/CategoriesController");
 const { isAuthenticated } = require("../middlewares/authMiddleware");
-
+const {
+  validateFields,
+  isMongoId,
+  validateCategory,
+} = require("../utils/validations");
 router.get("/", CategoriesController.getAllCategories);
 
-router.get("/:id", CategoriesController.getCategoryById);
+router.get(
+  "/:id",
+  [isMongoId, validateFields],
+  CategoriesController.getCategoryById
+);
 
-router.post("/", isAuthenticated, CategoriesController.createNewCategory);
+router.post(
+  "/",
+  [validateCategory, validateFields],
+  isAuthenticated,
+  CategoriesController.createNewCategory
+);
 
-router.put("/:id", CategoriesController.updateCategory);
+router.put(
+  "/:id",
+  [isMongoId, validateFields],
+  CategoriesController.updateCategory
+);
 
-router.delete("/:id", CategoriesController.deleteCategory);
+router.delete(
+  "/:id",
+  [isMongoId, validateFields],
+  CategoriesController.deleteCategory
+);
 
 module.exports = router;

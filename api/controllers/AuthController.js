@@ -1,61 +1,59 @@
 const Users = require("../models/Users");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const bcryptjs = require("bcryptjs");
 
 const signToken = (_id) => {
   return jwt.sign({ _id }, "my-secret", { expiresIn: 60 * 60 * 24 * 365 });
 };
 
-exports.register = (req, res) => {
+exports.register = async (req, res) => {
   const { email, password, name } = req.body;
 
-  crypto.randomBytes(16, (err, salt) => {
-    const newSalt = salt.toString("base64");
-    crypto.pbkdf2(password, newSalt, 10000, 64, "sha1", (err, key) => {
-      const encryptedPassword = key.toString("base64");
-      Users.findOne({ email })
-        .exec()
-        .then((user) => {
-          if (user) return res.status(400).send("El usuario ya existe.");
+  const user = new Users({ email, password, name });
 
-          Users.create({
-            name,
-            email,
-            password: encryptedPassword,
-            salt: newSalt,
-          }).then(() => {
-            return res.send("Usuario creado con éxito");
-          });
-        });
-    });
+  const salt = bcryptjs.genSaltSync();
+  user.password = bcryptjs.hashSync(password, salt);
+  await user.save();
+
+  res.json({
+    user,
   });
 };
 
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   const { email, password } = req.body;
+  const user = await Users.findOne({ email });
 
-  Users.findOne({ email })
-    .exec()
-    .then((user) => {
-      if (!user)
-        return res.status(400).send("Usuario y/o contraseña incorrecta");
+  if (!user) {
+    const msg = "Usuario y/o contraseña incorrecta";
+    return res.status(400).send({ msg });
+  }
+  const validPassword = bcryptjs.compareSync(password, user.password);
 
-      crypto.pbkdf2(password, user.salt, 10000, 64, "sha1", (err, key) => {
-        const encryptedPassword = key.toString("base64");
-
-        if (user.password === encryptedPassword) {
-          const token = signToken(user._id);
-          return res.send({ token });
-        }
-        return res.status(400).send("Usuario y/o contraseña incorrecta.");
-      });
-    });
+  if (!validPassword) {
+    const msg = "Usuario y/o contraseña incorrecta";
+    return res.status(400).send({ msg });
+  }
+  const token = signToken(user._id);
+  return res.send({ token });
 };
 
 exports.getUserData = (req, res) => {
-  let user = JSON.parse(JSON.stringify(req.user));
-  delete user.password;
-  delete user.salt;
+  return res.send(req.user);
+};
 
-  res.send(user);
+exports.checkExistEmail = async (email = "") => {
+  const isExist = await Users.findOne({ email });
+  if (isExist) {
+    throw new Error(`El email: ${email}, ya está registrado`);
+  }
+
+  exports.existsUser = async (_id) => {
+    console.log("_id", _id);
+    const isExist = await Users.findOne({ _id });
+    if (!isExist) {
+      throw new Error(`No existe el usuario`);
+    }
+  };
 };
