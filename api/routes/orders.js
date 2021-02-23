@@ -23,4 +23,10 @@ router.delete(
   OrdersController.deleteOrder
 );
 
+router.post(
+  "/:id/delivered",
+  [isMongoId, isAuthenticated],
+  OrdersController.updateDelivered
+);
+
 module.exports = router;
