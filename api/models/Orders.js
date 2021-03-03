@@ -13,8 +13,15 @@ const ordersSchema = new Schema(
     delivered: { type: Boolean, default: false },
     price: { type: Number, required: true },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+ordersSchema.virtual("count_meals", {
+  ref: "Meals",
+  localField: "meals",
+  foreignField: "_id",
+  count: true,
+});
 
 ordersSchema.methods.toJSON = function () {
   const { __v, createdAt, updatedAt, ...order } = this.toObject();

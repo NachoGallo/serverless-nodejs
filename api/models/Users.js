@@ -27,8 +27,13 @@ const userSchema = new Schema(
 
 userSchema.methods.toJSON = function () {
   const { password, createdAt, updatedAt, __v, ...usuario } = this.toObject();
+
   return usuario;
 };
+
+userSchema.virtual("domain").get(function () {
+  return this.email.slice(this.email.indexOf("@") + 1);
+});
 
 //Antes de guardar encripta la password
 userSchema.pre("save", async function (next) {
