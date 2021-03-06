@@ -1,6 +1,6 @@
 const express = require("express");
+
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const meals = require("./routes/meals");
 const orders = require("./routes/orders");
@@ -10,8 +10,9 @@ const auth = require("./routes/auth");
 require("dotenv").config();
 const port = process.env.PORT || 3001;
 const app = express();
-app.use(bodyParser.json());
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,

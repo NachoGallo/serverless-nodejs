@@ -11,7 +11,7 @@ const isAuthenticated = (req, res, next) => {
 
   if (!token) return res.sendStatus(403);
 
-  jwt.verify(token, "my-secret", (err, decodedToken) => {
+  jwt.verify(token, process.env.MY_SECRET, (err, decodedToken) => {
     const { _id } = decodedToken;
 
     Users.findOne({ _id })
