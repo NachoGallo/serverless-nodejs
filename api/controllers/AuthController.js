@@ -3,7 +3,9 @@ const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 
 const signToken = (_id) => {
-  return jwt.sign({ _id }, "my-secret", { expiresIn: 60 * 60 * 24 * 365 });
+  return jwt.sign({ _id }, process.env.MY_SECRET, {
+    expiresIn: 60 * 60 * 24 * 365,
+  });
 };
 
 exports.register = async (req, res) => {

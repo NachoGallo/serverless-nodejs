@@ -26,7 +26,9 @@ const isAuthenticated = (req, res, next) => {
 };
 
 const hasRole = (role) => (req, res, next) => {
+  if (role.includes(req.user.role)) return next();
   if (req.user.role === role) return next();
+
   return res
     .status(403)
     .send({ msg: "No tenés permisos para realizar la acción." });

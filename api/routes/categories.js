@@ -7,7 +7,7 @@ router.get("/", CategoriesController.getAllCategories);
 
 router.get(
   "/:id",
-  [isMongoId, isAuthenticated, hasRole("USER_ROLE")],
+  [isMongoId, isAuthenticated, hasRole(["ADMIN_ROLE", "USER_ROLE"])],
   CategoriesController.getCategoryById
 );
 
