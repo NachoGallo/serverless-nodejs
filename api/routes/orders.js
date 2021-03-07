@@ -19,13 +19,13 @@ router.put("/:id", [isMongoId, isAuthenticated], OrdersController.updateOrder);
 
 router.delete(
   "/:id",
-  [isMongoId, isAuthenticated],
+  [isMongoId, isAuthenticated, hasRole("ADMIN_ROLE")],
   OrdersController.deleteOrder
 );
 
 router.post(
   "/:id/delivered",
-  [isMongoId, isAuthenticated],
+  [isMongoId, isAuthenticated, hasRole("USER_ROLE")],
   OrdersController.updateDelivered
 );
 
