@@ -1,33 +1,37 @@
 const express = require("express");
 const router = express.Router();
 const CategoriesController = require("../controllers/CategoriesController");
-const { isAuthenticated } = require("../middlewares/authMiddleware");
+const { isAuthenticated, hasRole } = require("../middlewares/authMiddleware");
 const { isMongoId, validateCategory } = require("../utils/validations");
 router.get("/", CategoriesController.getAllCategories);
 
-router.get("/:id", isMongoId, CategoriesController.getCategoryById);
+router.get(
+  "/:id",
+  [isMongoId, isAuthenticated, hasRole("USER_ROLE")],
+  CategoriesController.getCategoryById
+);
 
 router.post(
   "/",
-  [validateCategory, isAuthenticated],
+  [validateCategory, isAuthenticated, hasRole("ADMIN_ROLE")],
   CategoriesController.createNewCategory
 );
 
 router.put(
   "/:id",
-  [isAuthenticated, isMongoId],
+  [isMongoId, isAuthenticated, hasRole("ADMIN_ROLE")],
   CategoriesController.updateCategory
 );
 
 router.delete(
   "/:id",
-  [isAuthenticated, isMongoId],
+  [isMongoId, isAuthenticated, hasRole("ADMIN_ROLE")],
   CategoriesController.deleteCategory
 );
 
 router.get(
   "/:id/meals",
-  [isAuthenticated, isMongoId],
+  [isMongoId, isAuthenticated, hasRole("USER_ROLE")],
   CategoriesController.getMeals
 );
 
