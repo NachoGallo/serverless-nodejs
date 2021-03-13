@@ -20,7 +20,7 @@ const userSchema = new Schema(
       trim: true,
     },
     salt: String,
-    role: { type: String, default: "user" },
+    role: { type: String, default: "USER_ROLE" },
   },
   { timestamps: true }
 );

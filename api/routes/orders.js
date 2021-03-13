@@ -11,7 +11,7 @@ router.get("/:id", isMongoId, OrdersController.getOrderById);
 
 router.post(
   "/",
-  [validateOrders, isAuthenticated],
+  [isAuthenticated, validateOrders],
   OrdersController.createNewOrder
 );
 

@@ -62,7 +62,7 @@ const validateRestaurants = [
 
 const validateOrders = [
   check("price", "Precio invalido").not().isEmpty().isNumeric(),
-  check("user", "Usuario invalido").not().isEmpty().isMongoId(),
+  check("userId", "Usuario invalido").not().isEmpty().isMongoId(),
   check("meals", "Ingrese platos").not().isEmpty(),
   getErrorsFromChecks,
 ];
